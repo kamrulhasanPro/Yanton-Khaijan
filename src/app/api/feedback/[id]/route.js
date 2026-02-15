@@ -6,7 +6,7 @@ const feedbacksCollection = connect("feedbacks");
 // specific get
 export async function GET(req, { params }) {
   const { id } = await params;
-  if (!id || id.length !== 24) {
+  if (!ObjectId.isValid(id)) {
     return Response.json({
       status: 404,
       message: "give me valid _id",
