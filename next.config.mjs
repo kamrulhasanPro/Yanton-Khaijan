@@ -2,6 +2,11 @@
 const nextConfig = {
   /* config options here */
   reactCompiler: true,
+
+  compiler: {
+    removeConsole: true,
+  },
+
   images: {
     remotePatterns: [
       {
@@ -17,6 +22,22 @@ const nextConfig = {
         pathname: "/api/portraits/**",
       },
     ],
+  },
+
+  // redirects page
+  async redirects() {
+    return [
+      {
+        source: "/foods-details/:id",
+        destination: "/foods/:id",
+        permanent: true,
+      },
+      {
+        source: "/home",
+        destination: "/",
+        permanent: true,
+      },
+    ];
   },
 };
 

@@ -8,13 +8,17 @@ export async function GET(request) {
 
 export async function POST(req) {
   const { review } = await req.json();
-  
+  console.log(review);
+
   if (!review || typeof review !== "string") {
     return Response.json({
       status: 404,
       message: "please give me a review",
     });
   }
-  const result = await feedbacksCollection.insertOne({ review });
+  const result = await feedbacksCollection.insertOne({
+    review,
+    createdAt: new Date().toISOString(),
+  });
   return Response.json(result);
 }

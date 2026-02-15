@@ -9,7 +9,7 @@ export function generateStaticParams() {
 export const generateMetadata = async ({ params }) => {
   const { id } = await params;
   const res = await fetch(
-    `https://taxi-kitchen-api.vercel.app/api/v1/foods/${id}`
+    `https://taxi-kitchen-api.vercel.app/api/v1/foods/${id}`,
   );
   const data = await res.json();
   const food = data?.details;
@@ -25,11 +25,17 @@ export const generateMetadata = async ({ params }) => {
 const page = async ({ params }) => {
   const { id } = await params;
   const res = await fetch(
-    `https://taxi-kitchen-api.vercel.app/api/v1/foods/${id}`
+    `https://taxi-kitchen-api.vercel.app/api/v1/foods/${id}`,
+    { next: { revalidate: 60 } },
   );
 
   const data = await res.json();
   const food = data?.details;
+  if(!food.title){
+    return <div>
+      <h5 className="text-xl text-center py-5">Not found this product.❌❌</h5>
+    </div>;
+  }
   return (
     <section className="min-h-[calc(100vh-80px)] bg-gradient-to-bl from-[#0f172a] via-[#020617] to-black py-10 px-4 rounded-2xl">
       <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
